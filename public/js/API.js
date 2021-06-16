@@ -1,7 +1,16 @@
 const url = 'http://dev.farizdotid.com/api/daerahindonesia';
 
 export const viewOption = item => {
-  return `<option value="${item.id}">${item.nama}</option>`;
+  return /* html */ `<option value="${item.id}">${item.nama}</option>`;
+};
+
+export const viewData = data => {
+  return /* html */ `<div class="data-result">
+    <p>Provinsi: ${data.provinsi}</p>
+    <p>Kota: ${data.kota}</p>
+    <p>Kecamatan: ${data.kecamatan}</p>
+    <p>Kelurahan: ${data.kelurahan}</p>
+  </div>`;
 };
 
 export const getProvinsi = async () => {

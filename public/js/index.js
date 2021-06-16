@@ -3,6 +3,7 @@ import {
   getKelurahan,
   getKota,
   getProvinsi,
+  viewData,
   viewOption,
 } from './API.js';
 
@@ -13,6 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const kelurahan = document.getElementById('kelurahan');
   const form = document.getElementById('form');
   const result = document.getElementById('result');
+  const resetButton = document.getElementById('reset');
 
   const dataProvinsi = await getProvinsi();
 
@@ -24,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   provinsi.innerHTML = optionProvinsi;
 
   // kota
-  provinsi.addEventListener('change', async e => {
+  provinsi.onchange = async e => {
     const dataKota = await getKota(e.target.value);
 
     let optionKota = '';
@@ -33,10 +35,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     kota.innerHTML = optionKota;
-  });
+  };
 
   // kecamatan
-  kota.addEventListener('change', async e => {
+  kota.onchange = async e => {
     const dataKecamatan = await getKecamatan(e.target.value);
 
     let optionKecamatan = '';
@@ -45,9 +47,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     kecamatan.innerHTML = optionKecamatan;
-  });
+  };
 
-  kecamatan.addEventListener('change', async e => {
+  kecamatan.onchange = async e => {
     const dataKelurahan = await getKelurahan(e.target.value);
 
     let optionKelurahan = '';
@@ -56,10 +58,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     kelurahan.innerHTML = optionKelurahan;
-  });
+  };
 
-  form.addEventListener('submit', e => {
+  resetButton.onclick = () => {
+    location.reload();
+  };
+
+  form.onsubmit = e => {
     e.preventDefault();
-    console.log(provinsi.options[provinsi.selectedIndex].text);
-  });
+    const data = {
+      provinsi: provinsi.options[provinsi.selectedIndex].text,
+      kota: kota.options[kota.selectedIndex].text,
+      kecamatan: kecamatan.options[kecamatan.selectedIndex].text,
+      kelurahan: kelurahan.options[kelurahan.selectedIndex].text,
+    };
+
+    result.innerHTML = viewData(data);
+  };
 });
